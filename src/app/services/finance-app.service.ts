@@ -1,0 +1,113 @@
+export interface StockData {
+  name: string,
+  abbreviation: string,
+  changeToday: number,
+  percentPerChangeToday: number,
+  price: number,
+  src: string,
+  alt: string
+}
+
+import { Injectable, signal } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FinanceAppService {
+  modalData = new Subject<StockData>();
+  mockData = signal<StockData[]>([
+    {
+      name: "Vanguard S&P 500 Etf",
+      abbreviation: "VOO",
+      changeToday: 2.62,
+      percentPerChangeToday: 0.57,
+      price: 462,
+      src: "assets/images/logo-1.webp",
+      alt: "#"
+    },
+    {
+      name: "Telo Genomics Corp",
+      abbreviation: "TGC",
+      changeToday: 4.23,
+      percentPerChangeToday: 0,
+      price: 4.23,
+      src: "assets/images/logo-2.webp",
+      alt: "#"
+    },
+    {
+      name: "Asmi Holding Nv",
+      abbreviation: "AHN",
+      changeToday: -12.40,
+      percentPerChangeToday: -1.45,
+      price: 840.00,
+      src: "assets/images/logo-3.webp",
+      alt: "#"
+    },
+    {
+      name: "Apple Inc",
+      abbreviation: "AAPL",
+      changeToday: 0.22,
+      percentPerChangeToday: 0.13,
+      price: 840.00,
+      src: "assets/images/logo-4.webp",
+      alt: "#"
+    },
+    {
+      name: "Nvidia Corporation",
+      abbreviation: "NVDA",
+      changeToday: 13.66,
+      percentPerChangeToday: 1.63,
+      price: 854.01,
+      src: "assets/images/logo-5.webp",
+      alt: "#"
+    },
+    {
+      name: "Tesla Motors Inc.",
+      abbreviation: "TSLA",
+      changeToday: -4.43,
+      percentPerChangeToday: -2.85,
+      price: 151.02,
+      src: "assets/images/logo-6.webp",
+      alt: "#"
+    },
+    {
+      name: "Taiwan Semiconductor Manufacturing",
+      abbreviation: "TSM",
+      changeToday: -5.18,
+      percentPerChangeToday: -3.73,
+      price: 133.85,
+      src: "assets/images/logo-7.webp",
+      alt: "#"
+    },
+    {
+      name: "Direxion Daily China Bull",
+      abbreviation: "DCB",
+      changeToday: 1.00,
+      percentPerChangeToday: 5.59,
+      price: 18.90,
+      src: "assets/images/logo-8.webp",
+      alt: "#"
+    },
+    {
+      name: "Ethereum Tracker",
+      abbreviation: "ETH",
+      changeToday: 9.26,
+      percentPerChangeToday: 3.58,
+      price: 267.81,
+      src: "assets/images/logo-9.webp",
+      alt: "#"
+    },
+    {
+      name: "Blackrock Capital Allocation Trust",
+      abbreviation: "BCAT",
+      changeToday: 0.29,
+      percentPerChangeToday: 0.38,
+      price: 76.10,
+      src: "assets/images/logo-10.webp",
+      alt: "#"
+    }
+  ]);
+  
+  constructor() { }
+}

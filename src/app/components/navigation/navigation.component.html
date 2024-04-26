@@ -1,0 +1,13 @@
+<div class="flex flex-col h-lvh min-h-full w-20 bg-purple text-white">
+    <div class="flex items-center justify-center p-4 my-4">
+        <img [ngSrc]="logo.src" alt="Logo" width="24" height="24" [priority]="true" class="h-11 w-11" />
+    </div>
+    <div class="flex flex-col flex-grow justify-start">
+        @for(icon of navigationIcons; track icon; let i = $index) {
+        <a [href]="icon.href" [ngClass]="{'bg-indigo-500': i === activeIconIndex}"
+            class="flex items-center justify-center p-3 my-2 mx-4 hover:bg-indigo-500 rounded-lg transition duration-300">
+            <img [ngSrc]="icon.src" [alt]="icon.alt" width="18" height="18" [priority]="true" class="h-5 w-5" />
+        </a>
+        }
+    </div>
+</div>

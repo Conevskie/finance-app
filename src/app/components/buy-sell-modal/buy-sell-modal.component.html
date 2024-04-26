@@ -1,0 +1,42 @@
+<div class="fixed top-0 right-0 bottom-0 left-0 bg-black opacity-50 z-40"></div>
+
+<div class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow">
+            <button (click)="closeModal()" type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+                <img ngSrc="assets/images/close-icon.webp" alt="#" width="18" height="18" [priority]="false" class="h-5 w-5" />
+            </button>
+            <div class="p-4 md:p-5">
+                <h3 class="mb-1 text-xl font-bold text-gray-900 mb-4">{{ item.name.split(' ')[0] }}</h3>
+                <div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                          <p class="text-lg">{{ item.name }}</p>
+                          <p class="text-sm text-gray-500">{{ item.abbreviation }}</p>
+                        </div>
+                        <div>
+                          <p class="font-bold text-lg text-right">{{ item.price | currency:'USD':'symbol':'1.2-2' }}</p>
+                          <p [ngClass]="{
+                            'text-green': item.percentPerChangeToday > 0,
+                            'text-red': item.percentPerChangeToday < 0,
+                            'text-gray-500': item.percentPerChangeToday === 0}"
+                           class="text-sm text-right">({{ item.percentPerChangeToday >= 0 ? '+' + item.percentPerChangeToday :
+                           item.percentPerChangeToday | number:'1.2-2'}}%)</p>
+                        </div>
+                      </div>
+                      
+                </div>
+                <div class="flex flex-col items-center mt-6 tetx-center">
+                    <button (click)="buyStock()" type="button" class="text-white bg-green font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 flex justify-center w-full">
+                        <img ngSrc="assets/images/buy-icon.webp" alt="#" width="18" height="18" [priority]="false" class="h-5 w-5" />
+                        <span class="ml-2">Buy</span>
+                    </button>
+                    <button (click)="sellStock()" type="button" class="text-white bg-red font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 flex justify-center w-full">
+                        <img ngSrc="assets/images/sell-icon.webp" alt="#" width="18" height="18" [priority]="false" class="h-5 w-5" />
+                        <span class="ml-2">Sell</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

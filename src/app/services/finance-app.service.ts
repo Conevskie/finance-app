@@ -9,13 +9,11 @@ export interface StockData {
 }
 
 import { Injectable, signal } from '@angular/core';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FinanceAppService {
-  modalData = new Subject<StockData>();
   mockData = signal<StockData[]>([
     {
       name: "Vanguard S&P 500 Etf",

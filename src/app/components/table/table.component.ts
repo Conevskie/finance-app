@@ -36,19 +36,19 @@ export class TableComponent implements OnInit, OnDestroy {
   
   filteredMockData = computed(() => {
     return this.financeAppService.mockData().filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
-  })
+  });
 
   ngOnInit(): void {
     this.intervalId = setInterval(() => {
       this.financeAppService.mockData.update(item => {
-        item.forEach(key => key.changeToday = this.addRandomValueToNumber(key.changeToday));
-        item.forEach(key => key.percentPerChangeToday = this.calculatePercentageChange(key.price, key.changeToday));
+        item.map(key => key.changeToday = this.addRandomValueToNumber(key.changeToday));
+        item.map(key => key.percentPerChangeToday = this.calculatePercentageChange(key.price, key.changeToday));
         return [...item]
       })
     }, 3000);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -68,12 +68,12 @@ export class TableComponent implements OnInit, OnDestroy {
     return roundedPercentageChange;
   }
 
-  openModal(record: StockData) {
+  openModal(record: StockData): void {
     this.modalItem = record;
     this.isModalOpened = true;
   }
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpened = false;
     }
 }

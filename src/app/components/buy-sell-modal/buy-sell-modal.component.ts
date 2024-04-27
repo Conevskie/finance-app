@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { StockData } from '../../services/finance-app.service';
 
 @Component({
@@ -11,18 +11,18 @@ import { StockData } from '../../services/finance-app.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuySellModalComponent {
-  @Input() item!: StockData;
-  @Output() closeModalEvent: EventEmitter<void> = new EventEmitter<void>();
+  item = input<StockData>();
+  closeModalEvent = output<void>();
 
-  closeModal() {
+  closeModal(): void {
     this.closeModalEvent.emit();
   }
 
-  buyStock() {
-    console.log("You have bought stocks at a change of: " + this.item.percentPerChangeToday);
+  buyStock(): void {
+    console.log("You have bought stocks at a change of: " + this.item()!.percentPerChangeToday);
   }
 
-  sellStock() {
-    console.log("You have sold stocks at a change of: " + this.item.percentPerChangeToday);
+  sellStock(): void {
+    console.log("You have sold stocks at a change of: " + this.item()!.percentPerChangeToday);
   }
 }

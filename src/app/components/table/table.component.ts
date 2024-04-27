@@ -1,79 +1,57 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { BuySellModalComponent } from '../buy-sell-modal/buy-sell-modal.component';
-import { FinanceAppService, StockData } from '../../services/finance-app.service';
+import { FinanceAppService, Stock } from '../../services/finance-app.service';
 import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from '../button/button.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [ NgOptimizedImage, CommonModule, BuySellModalComponent ,FormsModule ],
+  imports: [NgOptimizedImage, CommonModule, BuySellModalComponent, FormsModule, ButtonComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnInit, OnDestroy {
+export class TableComponent {
   financeAppService = inject(FinanceAppService);
-  private intervalId: any;
   columnName: any = ['Name', 'Change Today', 'Price', ''];
-  actionButtons: any = [
+  buttons = [
     {
-      name: "Buy",
-      src: "assets/images/buy-icon.webp",
-      alt: "#",
-      color: "green"
+      buttonColorClass: 'bg-green',
+      buttonText: 'Buy',
+      iconSrc: 'assets/images/buy-icon.webp'
     },
     {
-      name: "Sell",
-      src: "assets/images/sell-icon.webp",
-      alt: "#",
-      color: "red"
-    },
+      buttonColorClass: 'bg-red',
+      buttonText: 'Sell',
+      iconSrc: 'assets/images/sell-icon.webp'
+    }
   ];
   isModalOpened: boolean = false;
-  modalItem!: StockData;
-  searchInput : string = '';
-  
+  modalItem!: Stock;
+  searchInput: string = '';
+  mockData = signal<Stock[]>([]);
+
   filteredMockData = computed(() => {
-    return this.financeAppService.mockData().filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+    return this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
   });
 
-  ngOnInit(): void {
-    this.intervalId = setInterval(() => {
-      this.financeAppService.mockData.update(item => {
-        item.map(key => key.changeToday = this.addRandomValueToNumber(key.changeToday));
-        item.map(key => key.percentPerChangeToday = this.calculatePercentageChange(key.price, key.changeToday));
-        return [...item]
-      })
-    }, 3000);
+  constructor() {
+    this.financeAppService.getMockData()
+      .pipe(takeUntilDestroyed())
+      .subscribe(data => {
+        this.mockData.set(data);
+      });
   }
 
-  ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-  }
-
-  addRandomValueToNumber(inputNumber: number): number {
-    const randomValue = Math.floor(Math.random() * 20) - 10;
-    let result = inputNumber + randomValue;
-    result = parseFloat(result.toFixed(2));
-    return result;
-  }
-
-  calculatePercentageChange(price: number, priceChange: number): number {
-    const newPrice = price + priceChange;
-    const percentageChange = ((newPrice - price) / Math.abs(price)) * 100;
-    const roundedPercentageChange = parseFloat(percentageChange.toFixed(2));
-    return roundedPercentageChange;
-  }
-
-  openModal(record: StockData): void {
+  openModal(record: Stock): void {
     this.modalItem = record;
     this.isModalOpened = true;
   }
 
   closeModal(): void {
     this.isModalOpened = false;
-    }
+  }
 }

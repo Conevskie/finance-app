@@ -1,28 +1,33 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { StockData } from '../../services/finance-app.service';
+import { Stock } from '../../services/finance-app.service';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-buy-sell-modal',
   standalone: true,
-  imports: [NgOptimizedImage, CommonModule],
+  imports: [NgOptimizedImage, CommonModule, ButtonComponent],
   templateUrl: './buy-sell-modal.component.html',
   styleUrl: './buy-sell-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuySellModalComponent {
-  item = input<StockData>();
+  item = input<Stock>();
   closeModalEvent = output<void>();
+  buttons = [
+    {
+      buttonColorClass: 'bg-green',
+      buttonText: 'Buy',
+      iconSrc: 'assets/images/buy-icon.webp'
+    },
+    {
+      buttonColorClass: 'bg-red',
+      buttonText: 'Sell',
+      iconSrc: 'assets/images/sell-icon.webp'
+    }
+  ];
 
   closeModal(): void {
     this.closeModalEvent.emit();
-  }
-
-  buyStock(): void {
-    console.log("You have bought stocks at a change of: " + this.item()!.percentPerChangeToday);
-  }
-
-  sellStock(): void {
-    console.log("You have sold stocks at a change of: " + this.item()!.percentPerChangeToday);
   }
 }

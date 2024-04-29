@@ -28,7 +28,7 @@
                 <tbody>
                     @for(item of filteredMockData(); track item.name) {
                     <tr class="border-b">
-                        <td (click)="openModal(item)" class="px-4 py-3">
+                        <td (click)="openModal(item)" class="px-4 py-3 cursor-pointer">
                             <div class="flex items-center">
                                 <img [ngSrc]="item.src" [alt]="item.alt" width="18" height="18" [priority]="true"
                                     class="h-9 w-9" />

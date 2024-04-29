@@ -1,17 +1,16 @@
-import { NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [ NgOptimizedImage ],
+  imports: [ NgOptimizedImage, CommonModule ],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
   buttonText = input<string> ('');
   iconSrc = input<string> ('');
-  buttonColorClass = input<string> ('');
   stockName = input<string> ('');
 
   onClickHandler(buttonText: string): void {

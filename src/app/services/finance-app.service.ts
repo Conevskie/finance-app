@@ -17,16 +17,19 @@ import { Observable, map, switchMap, timer } from 'rxjs';
 })
 export class FinanceAppService {
   readonly http = inject(HttpClient);
+  private mockDataUrl: string = 'assets/data/mock-data.json';
 
   getMockData(): Observable<Stock[]> {
     return timer(0, 3000).pipe(
-      switchMap(() => this.http.get<Stock[]>('assets/data/mock-data.json').pipe(
+      switchMap(() => this.http.get<Stock[]>(this.mockDataUrl).pipe(
         map((transformedData) => transformedData.map(item => {
           const changeToday = this.addRandomValueToNumber(item.changeToday);
+          const price = this.addRandomValueToNumber(item.price);
           return ({
             ...item,
             changeToday: changeToday,
-            percentPerChangeToday: this.calculatePercentageChange(item.price, changeToday)
+            price: price,
+            percentPerChangeToday: this.calculatePercentageChange(price, changeToday)
           })
         }))
       )

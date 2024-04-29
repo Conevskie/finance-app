@@ -16,12 +16,10 @@ export class BuySellModalComponent {
   closeModalEvent = output<void>();
   buttons = [
     {
-      buttonColorClass: 'bg-green',
       buttonText: 'Buy',
       iconSrc: 'assets/images/buy-icon.webp'
     },
     {
-      buttonColorClass: 'bg-red',
       buttonText: 'Sell',
       iconSrc: 'assets/images/sell-icon.webp'
     }

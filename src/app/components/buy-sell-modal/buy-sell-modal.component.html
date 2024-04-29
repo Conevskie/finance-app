@@ -32,7 +32,7 @@
                 </div>
                 <div class="flex flex-col items-center mt-6 text-center">
                     @for(button of buttons; track button.buttonText) {
-                    <app-button class="w-full" [buttonColorClass]="button.buttonColorClass"
+                    <app-button class="w-full"
                         [buttonText]="button.buttonText" [iconSrc]="button.iconSrc"
                         [stockName]="item()!.name"></app-button>
                     }

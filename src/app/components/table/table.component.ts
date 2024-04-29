@@ -19,12 +19,10 @@ export class TableComponent {
   columnName: any = ['Name', 'Change Today', 'Price', ''];
   buttons = [
     {
-      buttonColorClass: 'bg-green',
       buttonText: 'Buy',
       iconSrc: 'assets/images/buy-icon.webp'
     },
     {
-      buttonColorClass: 'bg-red',
       buttonText: 'Sell',
       iconSrc: 'assets/images/sell-icon.webp'
     }

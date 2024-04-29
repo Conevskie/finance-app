@@ -54,7 +54,7 @@
                         <td class="px-4 py-3">{{item.price | currency:'USD':'symbol':'1.2-2' }}</td>
                         <td class="px-4 py-3 flex items-center justify-end">
                             @for(button of buttons; track button.buttonText) {
-                                <app-button class="ml-2" [buttonColorClass]="button.buttonColorClass"
+                                <app-button class="ml-2"
                                     [buttonText]="button.buttonText" [iconSrc]="button.iconSrc"
                                     [stockName]="item.name"></app-button>
                                 }

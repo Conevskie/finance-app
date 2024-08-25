@@ -5,8 +5,7 @@ import { Component, input } from '@angular/core';
   selector: 'app-button',
   standalone: true,
   imports: [ NgOptimizedImage, CommonModule ],
-  templateUrl: './button.component.html',
-  styleUrl: './button.component.scss'
+  templateUrl: './button.component.html'
 })
 export class ButtonComponent {
   buttonText = input<string> ('');

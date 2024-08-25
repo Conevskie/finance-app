@@ -11,7 +11,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   standalone: true,
   imports: [NgOptimizedImage, CommonModule, BuySellModalComponent, FormsModule, ButtonComponent],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent {

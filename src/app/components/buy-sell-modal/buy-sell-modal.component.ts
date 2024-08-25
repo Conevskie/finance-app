@@ -8,7 +8,6 @@ import { ButtonComponent } from '../button/button.component';
   standalone: true,
   imports: [NgOptimizedImage, CommonModule, ButtonComponent],
   templateUrl: './buy-sell-modal.component.html',
-  styleUrl: './buy-sell-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuySellModalComponent {

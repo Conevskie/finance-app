@@ -7,7 +7,6 @@ import { NgOptimizedImage } from '@angular/common';
   standalone: true,
   imports: [ TableComponent, NgOptimizedImage ],
   templateUrl: './table-view.component.html',
-  styleUrl: './table-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableViewComponent {

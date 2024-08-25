@@ -6,7 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   imports: [ NgOptimizedImage, CommonModule ],
   templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent {

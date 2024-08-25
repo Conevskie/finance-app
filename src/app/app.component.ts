@@ -8,7 +8,6 @@ import { TableViewComponent } from './components/table-view/table-view.component
   standalone: true,
   imports: [RouterOutlet, NavigationComponent, TableViewComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {

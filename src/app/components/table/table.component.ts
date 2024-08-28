@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, model, signal } from '@angular/core';
 import { BuySellModalComponent } from '../buy-sell-modal/buy-sell-modal.component';
 import { FinanceAppService, Stock } from '../../services/finance-app.service';
 import { FormsModule } from '@angular/forms';
@@ -28,11 +28,11 @@ export class TableComponent {
   ];
   isModalOpened: boolean = false;
   modalItem!: Stock;
-  searchInput: string = '';
+  searchInput = model<string>('');
   mockData = signal<Stock[]>([]);
 
   filteredMockData = computed(() => {
-    return this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+    return this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput().toLowerCase()));
   });
 
   constructor() {

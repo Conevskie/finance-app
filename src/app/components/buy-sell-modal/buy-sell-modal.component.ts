@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Stock } from '../../services/finance-app.service';
 import { ButtonComponent } from '../button/button.component';
 
@@ -11,8 +11,8 @@ import { ButtonComponent } from '../button/button.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuySellModalComponent {
-  item = input<Stock>();
-  closeModalEvent = output<void>();
+  @Input() item!: Stock;
+  @Output() closeModalEvent = new EventEmitter<void>();
   buttons = [
     {
       buttonText: 'Buy',

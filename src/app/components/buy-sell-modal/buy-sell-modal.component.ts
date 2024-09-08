@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Stock } from '../../services/finance-app.service';
 import { ButtonComponent } from '../button/button.component';
 
@@ -10,9 +10,21 @@ import { ButtonComponent } from '../button/button.component';
   templateUrl: './buy-sell-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuySellModalComponent {
-  @Input() item!: Stock;
+export class BuySellModalComponent implements OnChanges{
+  @Input() item!: Stock | null;
   @Output() closeModalEvent = new EventEmitter<void>();
+
+  currentPrice!: number;
+  percentChangeToday!: number;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges triggered', changes['item']);
+    if (changes['item'] && changes['item'].currentValue) {
+      this.currentPrice = this.item?.price || 0;
+      this.percentChangeToday = this.item?.percentPerChangeToday || 0;
+    }
+  }
+  
   buttons = [
     {
       buttonText: 'Buy',

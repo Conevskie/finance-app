@@ -27,7 +27,7 @@ export class TableComponent {
     }
   ];
   isModalOpened: boolean = false;
-  modalItem!: Stock;
+  modalItem = signal<Stock | null>(null)
   searchInput: string = '';
   mockData = signal<Stock[]>([]);
 
@@ -44,7 +44,7 @@ export class TableComponent {
   }
 
   openModal(record: Stock): void {
-    this.modalItem = record;
+    this.modalItem.set(record)
     this.isModalOpened = true;
   }
 

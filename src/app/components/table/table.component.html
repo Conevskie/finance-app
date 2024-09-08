@@ -68,5 +68,5 @@
 </div>
 
 @if (isModalOpened) {
-<app-buy-sell-modal [item]="modalItem" (closeModalEvent)="closeModal()"></app-buy-sell-modal>
+<app-buy-sell-modal [item]="modalItem()" (closeModalEvent)="closeModal()"></app-buy-sell-modal>
 }

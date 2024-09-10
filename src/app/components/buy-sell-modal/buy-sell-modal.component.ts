@@ -18,7 +18,6 @@ export class BuySellModalComponent implements OnChanges{
   percentChangeToday!: number;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges triggered', changes['item']);
     if (changes['item'] && changes['item'].currentValue) {
       this.currentPrice = this.item?.price || 0;
       this.percentChangeToday = this.item?.percentPerChangeToday || 0;

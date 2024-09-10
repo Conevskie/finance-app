@@ -26,43 +26,39 @@ export class TableComponent {
       iconSrc: 'assets/images/sell-icon.webp'
     }
   ];
-  isModalOpened: boolean = false;
-  modalItem!: Stock;
+
+  // This should be signal as well
   searchInput: string = '';
-  mockData = signal<Stock[]>([]);
-  private searchField = viewChild.required<ElementRef<HTMLInputElement>>('searchField')
-
-  filteredMockData = computed(() => {
-    const filteredResults = this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
-
-    const selectedItemInFilteredResults = filteredResults.find(item => item.name === this.modalItem?.name);
-
-    if (selectedItemInFilteredResults) {
-      this.modalItem = {
-        ...selectedItemInFilteredResults
-      };
-    }
-    return filteredResults;
+  state = signal<{ filteredResults: Stock[] | [], selectedModalItem: Stock | null }>({
+    filteredResults: [],
+    selectedModalItem: null
   });
+  private searchField = viewChild.required<ElementRef<HTMLInputElement>>('searchField')
 
   constructor() {
     this.financeAppService.getMockData()
       .pipe(takeUntilDestroyed())
       .subscribe(data => {
-        this.mockData.set(data);
+        this.state.update(oldData => {
+          const selectedItemInFilteredResults = oldData.filteredResults.find(item => item.name === oldData.selectedModalItem?.name);
+          return {
+            filteredResults: data,
+            selectedModalItem: selectedItemInFilteredResults ?? null
+          }
+        });
       });
 
+    // This should not go in a template
     // effect(() => {
     //   this.searchField().nativeElement.focus();
     // })
   }
 
   openModal(record: Stock): void {
-    this.modalItem = record;
-    this.isModalOpened = true;
+    this.state.update(oldData => ({ ...oldData, selectedModalItem: record }));
   }
 
   closeModal(): void {
-    this.isModalOpened = false;
+    this.state.update(oldData => ({ ...oldData, selectedModalItem: null }));
   }
 }

@@ -9,7 +9,7 @@
                             <img ngSrc="assets/images/search-icon.webp" alt="#" width="18" height="18" [priority]="true"
                                 class="h-5 w-5" />
                         </div>
-                        <input id="search" type="text" [(ngModel)]="searchInput" [ngModelOptions]="{standalone: true}"
+                        <input #searchField id="search" type="text" [(ngModel)]="searchInput" [ngModelOptions]="{standalone: true}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 placeholder-gray-400"
                             placeholder="Search">
                     </div>
@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(item of filteredMockData(); track item.name) {
+                    @for(item of state().filteredResults; track item.name) {
                     <tr class="border-b">
                         <td (click)="openModal(item)" class="px-4 py-3 cursor-pointer">
                             <div class="flex items-center">
@@ -67,6 +67,6 @@
     </div>
 </div>
 
-@if (isModalOpened) {
-<app-buy-sell-modal [item]="modalItem" (closeModalEvent)="closeModal()"></app-buy-sell-modal>
+@if (state().selectedModalItem) {
+<app-buy-sell-modal [item]="state().selectedModalItem" (closeModalEvent)="closeModal()"></app-buy-sell-modal>
 }

@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { BuySellModalComponent } from '../buy-sell-modal/buy-sell-modal.component';
 import { FinanceAppService, Stock } from '../../services/finance-app.service';
 import { FormsModule } from '@angular/forms';
@@ -26,29 +26,39 @@ export class TableComponent {
       iconSrc: 'assets/images/sell-icon.webp'
     }
   ];
-  isModalOpened: boolean = false;
-  modalItem = signal<Stock | null>(null)
-  searchInput: string = '';
-  mockData = signal<Stock[]>([]);
 
-  filteredMockData = computed(() => {
-    return this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+  // This should be signal as well
+  searchInput: string = '';
+  state = signal<{ filteredResults: Stock[] | [], selectedModalItem: Stock | null }>({
+    filteredResults: [],
+    selectedModalItem: null
   });
+  private searchField = viewChild.required<ElementRef<HTMLInputElement>>('searchField')
 
   constructor() {
     this.financeAppService.getMockData()
       .pipe(takeUntilDestroyed())
       .subscribe(data => {
-        this.mockData.set(data);
+        this.state.update(oldData => {
+          const selectedItemInFilteredResults = oldData.filteredResults.find(item => item.name === oldData.selectedModalItem?.name);
+          return {
+            filteredResults: data,
+            selectedModalItem: selectedItemInFilteredResults ?? null
+          }
+        });
       });
+
+    // This should not go in a template
+    // effect(() => {
+    //   this.searchField().nativeElement.focus();
+    // })
   }
 
   openModal(record: Stock): void {
-    this.modalItem.set(record)
-    this.isModalOpened = true;
+    this.state.update(oldData => ({ ...oldData, selectedModalItem: record }));
   }
 
   closeModal(): void {
-    this.isModalOpened = false;
+    this.state.update(oldData => ({ ...oldData, selectedModalItem: null }));
   }
 }

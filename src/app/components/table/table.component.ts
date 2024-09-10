@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { BuySellModalComponent } from '../buy-sell-modal/buy-sell-modal.component';
 import { FinanceAppService, Stock } from '../../services/finance-app.service';
 import { FormsModule } from '@angular/forms';
@@ -27,12 +27,22 @@ export class TableComponent {
     }
   ];
   isModalOpened: boolean = false;
-  modalItem = signal<Stock | null>(null)
+  modalItem!: Stock;
   searchInput: string = '';
   mockData = signal<Stock[]>([]);
+  private searchField = viewChild.required<ElementRef<HTMLInputElement>>('searchField')
 
   filteredMockData = computed(() => {
-    return this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+    const filteredResults = this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+
+    const selectedItemInFilteredResults = filteredResults.find(item => item.name === this.modalItem?.name);
+
+    if (selectedItemInFilteredResults) {
+      this.modalItem = {
+        ...selectedItemInFilteredResults
+      };
+    }
+    return filteredResults;
   });
 
   constructor() {
@@ -41,10 +51,14 @@ export class TableComponent {
       .subscribe(data => {
         this.mockData.set(data);
       });
+
+    // effect(() => {
+    //   this.searchField().nativeElement.focus();
+    // })
   }
 
   openModal(record: Stock): void {
-    this.modalItem.set(record)
+    this.modalItem = record;
     this.isModalOpened = true;
   }
 

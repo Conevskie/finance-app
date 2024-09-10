@@ -10,22 +10,22 @@
                     class="h-5 w-5" />
             </button>
             <div class="p-4 md:p-5">
-                <h3 class="mb-1 text-xl font-bold text-gray-900 mb-4">{{ $any(item?.name).split(' ')[0] }}</h3>
+                <h3 class="mb-1 text-xl font-bold text-gray-900 mb-4">{{ $any(item()?.name).split(' ')[0] }}</h3>
                 <div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <p class="text-lg">{{ item?.name }}</p>
-                            <p class="text-sm text-gray-500">{{ item?.abbreviation }}</p>
+                            <p class="text-lg">{{ item()?.name }}</p>
+                            <p class="text-sm text-gray-500">{{ item()?.abbreviation }}</p>
                         </div>
                         <div>
-                            <p class="font-bold text-lg text-right">{{ currentPrice | currency:'USD':'symbol':'1.2-2'
+                            <p class="font-bold text-lg text-right">{{ currentPrice() | currency:'USD':'symbol':'1.2-2'
                                 }}</p>
                             <p [ngClass]="{
-                            'text-green': percentChangeToday > 0,
-                            'text-red': percentChangeToday < 0,
-                            'text-gray-500': percentChangeToday === 0}" class="text-sm text-right">({{
-                                percentChangeToday >= 0 ? '+' + percentChangeToday :
-                                percentChangeToday | number:'1.2-2'}}%)</p>
+                            'text-green': percentChangeToday() > 0,
+                            'text-red': percentChangeToday() < 0,
+                            'text-gray-500': percentChangeToday() === 0}" class="text-sm text-right">({{
+                                percentChangeToday() >= 0 ? '+' + percentChangeToday() :
+                                percentChangeToday() | number:'1.2-2'}}%)</p>
                         </div>
                     </div>
 
@@ -34,7 +34,7 @@
                     @for(button of buttons; track button.buttonText) {
                     <app-button class="w-full"
                         [buttonText]="button.buttonText" [iconSrc]="button.iconSrc"
-                        [stockName]="item?.name || ''"></app-button>
+                        [stockName]="item()?.name || ''"></app-button>
                     }
                 </div>
             </div>

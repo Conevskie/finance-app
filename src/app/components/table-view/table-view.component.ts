@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { TableComponent } from '../table/table.component';
 import { NgOptimizedImage } from '@angular/common';
+import { Stock } from '../../services/finance-app.service';
 
 @Component({
   selector: 'app-table-view',
@@ -10,5 +11,19 @@ import { NgOptimizedImage } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableViewComponent {
+  @ViewChild(TableComponent) tableComponent!: TableComponent; 
 
+  addNewStock() {
+    const newStock: Stock = {
+      name: 'New Stock',
+      price: 123.45,
+      changeToday: 2.15,
+      percentPerChangeToday: 1.75,
+      abbreviation: 'NS',
+      src: 'assets/images/new-stock-icon.webp',
+      alt: 'New Stock Icon'
+    };
+
+    this.tableComponent.addStock(newStock);
+  }
 }

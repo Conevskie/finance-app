@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, signal, ViewChild } from '@angular/core';
 import { BuySellModalComponent } from '../buy-sell-modal/buy-sell-modal.component';
 import { FinanceAppService, Stock } from '../../services/finance-app.service';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 })
 export class TableComponent {
   financeAppService = inject(FinanceAppService);
-  columnName: any = ['Name', 'Change Today', 'Price', ''];
+  columnName: string[] = ['Name', 'Change Today', 'Price', ''];
   buttons = [
     {
       buttonText: 'Buy',
@@ -29,20 +29,13 @@ export class TableComponent {
   isModalOpened: boolean = false;
   modalItem!: Stock;
   searchInput: string = '';
+  
   mockData = signal<Stock[]>([]);
-  private searchField = viewChild.required<ElementRef<HTMLInputElement>>('searchField')
+  manuallyAddedStocks = signal<Stock[]>([]);
 
   filteredMockData = computed(() => {
-    const filteredResults = this.mockData()!.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
-
-    const selectedItemInFilteredResults = filteredResults.find(item => item.name === this.modalItem?.name);
-
-    if (selectedItemInFilteredResults) {
-      this.modalItem = {
-        ...selectedItemInFilteredResults
-      };
-    }
-    return filteredResults;
+    const combinedData = [...this.mockData(), ...this.manuallyAddedStocks()];
+    return combinedData.filter(item => item.name.toLowerCase().includes(this.searchInput.toLowerCase()));
   });
 
   constructor() {
@@ -51,10 +44,6 @@ export class TableComponent {
       .subscribe(data => {
         this.mockData.set(data);
       });
-
-    // effect(() => {
-    //   this.searchField().nativeElement.focus();
-    // })
   }
 
   openModal(record: Stock): void {
@@ -64,5 +53,9 @@ export class TableComponent {
 
   closeModal(): void {
     this.isModalOpened = false;
+  }
+
+  addStock(stock: Stock): void {
+    this.manuallyAddedStocks.set([...this.manuallyAddedStocks(), stock]);
   }
 }

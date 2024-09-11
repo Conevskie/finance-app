@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { TableComponent } from '../table/table.component';
 import { NgOptimizedImage } from '@angular/common';
 import { Stock } from '../../services/finance-app.service';
@@ -11,7 +11,7 @@ import { Stock } from '../../services/finance-app.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableViewComponent {
-  @ViewChild(TableComponent) tableComponent!: TableComponent; 
+  tableComponent = viewChild<TableComponent>(TableComponent)
 
   addNewStock() {
     const newStock: Stock = {
@@ -24,6 +24,6 @@ export class TableViewComponent {
       alt: 'New Stock Icon'
     };
 
-    this.tableComponent.addStock(newStock);
+    this.tableComponent()?.addStock(newStock);
   }
 }
